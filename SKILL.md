@@ -1,6 +1,6 @@
 ---
 name: github-repository-cloning
-description: Choose, execute, and verify safe GitHub repository acquisition methods: HTTPS, SSH, GitHub CLI, Desktop, shallow/partial/sparse/single-branch clones, submodules, LFS, mirrors, bundles, and source archives. Use when cloning, copying, migrating, or downloading a GitHub repository.
+description: "Choose, execute, and verify safe GitHub repository acquisition methods: HTTPS, SSH, GitHub CLI, Desktop, shallow/partial/sparse/single-branch clones, submodules, LFS, mirrors, bundles, and source archives. Use when cloning, copying, migrating, or downloading a GitHub repository."
 version: 1.0.0
 author: Hermes Agent
 license: MIT
