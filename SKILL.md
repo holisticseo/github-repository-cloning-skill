@@ -226,6 +226,7 @@ git show-ref
 
 - **Repository not found:** verify exact owner/name, authentication account, organization SSO authorization, and repository access.
 - **HTTPS authentication failed:** use Git Credential Manager, GitHub CLI, or an approved token flow; never use an account password or embed a token in the URL.
+- **GitHub CLI is authenticated but plain `git push` still prompts/fails:** verify the account with `gh auth status`, then run `gh auth setup-git` to configure Git's credential helper for GitHub.
 - **SSH permission denied:** test `ssh -T`, inspect which key/account is used, and verify organization access/SSO requirements.
 - **Destination exists:** stop and inspect it. Do not delete or clone over it without explicit approval.
 - **Missing files:** check sparse-checkout rules, submodules, and LFS state before recloning.
