@@ -28,7 +28,7 @@ The shared Grok conversation correctly surfaced four user-facing entry points—
 - “Most popular” and “favorite of professionals” are conversational claims without a reproducible measurement basis; the skill does not present them as facts.
 - HTTPS commonly works through networks that permit HTTPS, but “works everywhere” is too absolute.
 - `gh repo clone REPO` does default the omitted owner to the authenticated user, confirmed by current `gh repo clone --help`.
-- GitHub CLI requires authentication even when this environment attempted to clone a public repository; this was observed in the 2026-07-29 smoke test.
+- `gh repo clone` requires GitHub CLI authentication in this environment. Once authenticated, the public-repository smoke test completed successfully.
 - `--depth` yields partial *history*, not a Git partial clone in the technical `--filter` sense.
 - Single-branch clone retains the selected branch’s reachable history unless it is also shallow; “keeps full history: limited” needs this precise wording.
 - `--bare` and `--mirror` must not be grouped as equivalent exact copies.
@@ -44,7 +44,7 @@ On macOS with Git 2.50.1, the following were exercised against `octocat/Hello-Wo
 - `--filter=blob:none --sparse`: partial-clone filter and sparse-checkout configuration were present.
 - `--mirror`: repository reported bare and `+refs/*:refs/*` mirror fetch mapping.
 - bundle creation and clone: completed and checked out a valid commit.
-- GitHub CLI public clone: blocked because `gh` was not authenticated, confirming authentication is a prerequisite in this environment.
+- `gh repo clone`: after GitHub CLI authentication, the public-repository clone completed with the expected HTTPS origin and a non-shallow checkout.
 
 GitHub Desktop was source-verified from official documentation rather than UI-tested on this machine.
 
