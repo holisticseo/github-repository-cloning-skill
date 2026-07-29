@@ -17,7 +17,7 @@ The shared Grok conversation correctly surfaced four user-facing entry points—
 2. **A ZIP/source archive is not a clone.** It has no `.git` metadata, branches, remotes, history, fetch, pull, or push.
 3. **Partial clone is often preferable to shallow clone for large, long-lived developer checkouts.** `--filter=blob:none` preserves history and retrieves blobs on demand; shallow clone truncates ancestry and can break history-dependent workflows.
 4. **Sparse checkout and partial clone solve different problems.** Sparse checkout limits the working tree; partial clone limits transferred/stored objects. Combine them when both matter.
-5. **Mirror and bare are not synonyms.** `--mirror` implies `--bare`, maps all refs, and establishes mirror update behavior. A mirror push is destructive if the destination has refs absent from the source.
+5. **Mirror and bare are not synonyms, and neither is a complete GitHub backup.** `--mirror` implies `--bare`, maps Git refs, copies their reachable Git objects/history, and establishes mirror update behavior. It does not itself copy LFS objects, the separate wiki repository, or GitHub-hosted metadata such as issues, pull requests, releases/assets, Actions data, settings, permissions, and webhooks. A mirror push is destructive if the destination has refs absent from the source.
 6. **Submodules and Git LFS require explicit verification.** A successful top-level clone does not prove nested repositories or LFS objects are present.
 7. **Authentication must remain out of URLs and logs.** GitHub account passwords are not accepted for Git over HTTPS; use an approved credential helper, GitHub CLI, token-based flow, or SSH key without exposing secrets.
 8. **Forks and templates are server-side GitHub operations, not clone methods.** They may precede a clone but should not be conflated with transport.
@@ -31,7 +31,8 @@ The shared Grok conversation correctly surfaced four user-facing entry points—
 - `gh repo clone` requires GitHub CLI authentication in this environment. Once authenticated, the public-repository smoke test completed successfully.
 - `--depth` yields partial *history*, not a Git partial clone in the technical `--filter` sense.
 - Single-branch clone retains the selected branch’s reachable history unless it is also shallow; “keeps full history: limited” needs this precise wording.
-- `--bare` and `--mirror` must not be grouped as equivalent exact copies.
+- `--bare` and `--mirror` must not be grouped as equivalent exact copies, and a mirror must not be described as a complete GitHub backup.
+- GitHub Desktop is supported on macOS and Windows, not Linux.
 - GitHub source archives can have reproducibility caveats and should not be treated as stable backups by default.
 
 ## Local smoke-test evidence
@@ -46,7 +47,7 @@ On macOS with Git 2.50.1, the following were exercised against `octocat/Hello-Wo
 - bundle creation and clone: completed and checked out a valid commit.
 - `gh repo clone`: after GitHub CLI authentication, the public-repository clone completed with the expected HTTPS origin and a non-shallow checkout.
 
-GitHub Desktop was source-verified from official documentation rather than UI-tested on this machine.
+GitHub Desktop's macOS/Windows-only platform support and workflow were source-verified from official documentation rather than UI-tested on this machine.
 
 ## Sources
 

@@ -1,7 +1,7 @@
 ---
 name: github-repository-cloning
 description: "Choose, execute, and verify safe GitHub repository acquisition methods: HTTPS, SSH, GitHub CLI, Desktop, shallow/partial/sparse/single-branch clones, submodules, LFS, mirrors, bundles, and source archives. Use when cloning, copying, migrating, or downloading a GitHub repository."
-version: 1.0.0
+version: 1.1.0
 author: Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]
@@ -29,12 +29,12 @@ Use this skill when a user asks to clone, download, copy, migrate, mirror, or in
 | --- | --- | --- |
 | Normal command-line development | HTTPS or SSH full clone | Full history and normal fetch/push behavior |
 | Existing GitHub CLI workflow | `gh repo clone OWNER/REPO` | Requires `gh` authentication; adds `upstream` automatically for forks unless disabled |
-| Visual workflow | GitHub Desktop | GUI-mediated authentication and repository selection |
+| Visual workflow on macOS or Windows | GitHub Desktop | GUI-mediated authentication and repository selection; no Linux client |
 | Fast disposable CI checkout | Shallow clone | Incomplete history can break versioning, merge-base, blame, and some build logic |
 | Large monorepo, normal history needed | Partial clone, often plus sparse checkout | Missing objects are fetched on demand; server support is required |
 | Only one branch | Single-branch clone | Other remote branches are not configured/fetched by default |
 | Repository includes submodules | Clone with `--recurse-submodules` | Submodules are separate repositories with their own access requirements |
-| Exact server-side backup/migration | Mirror clone | Bare administrative copy; not a development working tree |
+| Git refs and reachable Git object/history migration | Mirror clone | Bare administrative copy; excludes LFS objects, wiki repositories, and GitHub-hosted metadata |
 | Bare central repository without mirror semantics | Bare clone | No working tree; does not imply mirror refspec/configuration |
 | Offline/air-gapped transfer | Git bundle | Static transfer artifact; verify and separately configure a remote if future syncing is needed |
 | Read-only snapshot with no Git operations | GitHub source archive/ZIP | Not a clone: no `.git`, history, branches, remotes, pull, or push |
@@ -82,7 +82,7 @@ If `OWNER/` is omitted, GitHub CLI uses the authenticating user. For forks, curr
 
 ### GitHub Desktop
 
-Use **File → Clone Repository**, choose GitHub.com/Enterprise Server or a URL, choose the local path, and clone. Verify the selected owner/repository and destination before confirming.
+GitHub Desktop is available for macOS and Windows, not Linux. Use **File → Clone Repository**, choose GitHub.com/Enterprise Server or a URL, choose the local path, and clone. Verify the selected owner/repository and destination before confirming.
 
 ## Scale and history variants
 
@@ -160,7 +160,7 @@ A normal Git clone alone is not proof that all LFS objects were obtained.
 git clone --mirror https://github.com/OWNER/REPO.git REPO.git
 ```
 
-`--mirror` implies `--bare`, maps all refs, and configures updates to overwrite mirrored refs. Use for migration/backup administration, not day-to-day editing. Before pushing a mirror, inspect the source and destination carefully; `git push --mirror` can delete destination refs that do not exist in the source.
+`--mirror` implies `--bare`, maps all Git refs, copies their reachable Git objects/history, and configures mirror updates. It does **not** by itself copy Git LFS objects, the separate GitHub wiki repository, releases and release assets, issues, pull requests, discussions, Actions data, repository settings, permissions, webhooks, or other GitHub-hosted metadata. Plan and verify those separately when the goal is a complete GitHub migration or backup. Use mirror clones for Git administration, not day-to-day editing. Before pushing a mirror, inspect the source and destination carefully; `git push --mirror` can delete destination refs that do not exist in the source.
 
 ### Bare
 

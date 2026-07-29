@@ -13,7 +13,7 @@ It covers:
 
 ## Install in Hermes Agent
 
-Copy this repository into a skill directory so `SKILL.md` is at the skill root, or use the runtime's supported skill installation workflow. The skill name is `github-repository-cloning`.
+Review the repository and `SKILL.md` first, then use Hermes Agent's supported `hermes skills inspect` and `hermes skills install` workflow described in the current official documentation. Do not pipe repository content into a shell, copy an unreviewed checkout into an active skills directory, or overwrite an installed skill manually. The skill name is `github-repository-cloning`.
 
 ## Use
 
@@ -26,6 +26,12 @@ For local verification:
 ```
 
 The script is read-only. It reports repository type, origin, branch, shallow/partial/sparse state, submodules, and Git LFS tracking.
+
+Remote URL userinfo and common credential-bearing query parameters are redacted before output. Run the regression suite with:
+
+```bash
+./tests/test-inspect-clone.sh
+```
 
 ## Research basis
 
